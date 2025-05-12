@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Construction Inventory Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-box"></i>
+                <h2>AZMIU HECATON</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active" data-page="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li data-page="inventory">
+                        <i class="fas fa-boxes"></i>
+                        <span>İnventar</span>
+                    </li>
+                    <li data-page="orders">
+                        <i class="fas fa-truck"></i>
+                        <span>Sifarişlər</span>
+                    </li>
+                    <li data-page="reports">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Hesabatlar</span>
+                    </li>
+                    <li data-page="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span>Bildirişlər</span>
+                    </li>
+                    <li data-page="users">
+                        <i class="fas fa-users"></i>
+                        <span>İstifadəçilər</span>
+                    </li>
+                    <li data-page="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Tənzimləmələr</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Çıxış</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboard">
+                <div class="page-header">
+                    <h1>İnventar İdarəetmə Sistemi</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-calendar"></i>
+                            Tarix Seçin
+                        </button>
+                        <button class="btn btn-primary" id="addMaterialBtn">
+                            <i class="fas fa-plus"></i>
+                            Yeni Material Əlavə Et
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab-header">
+                        <button class="tab-btn active" data-tab="overview">Ümumi Baxış</button>
+                        <button class="tab-btn" data-tab="inventory-tab">İnventar</button>
+                        <button class="tab-btn" data-tab="reports-tab">Hesabatlar</button>
+                        <button class="tab-btn" data-tab="alerts-tab">Bildirişlər</button>
+                    </div>
+
+                    <div class="tab-content active" id="overview">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Ümumi Material Sayı</h3>
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value">1,248</div>
+                                    <p class="stat-change positive">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+12%</span> keçən həftəyə nisbətən
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Kritik Səviyyədə</h3>
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value">7</div>
+                                    <p class="stat-change negative">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+3</span> keçən həftəyə nisbətən
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Bu Həftə Daxil Olan</h3>
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value">24</div>
+                                    <p class="stat-change negative">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span>-8%</span> keçən həftəyə nisbətən
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Bu Həftə İstifadə Olunan</h3>
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value">42</div>
+                                    <p class="stat-change positive">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>+16%</span> keçən həftəyə nisbətən
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="charts-grid">
+                            <div class="card chart-card">
+                                <div class="card-header">
+                                    <h3>Material İstifadəsi</h3>
+                                    <p>Son 30 gün ərzində material istifadəsi</p>
+                                </div>
+                                <div class="card-content">
+                                    <canvas id="inventoryChart"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="card activity-card">
+                                <div class="card-header">
+                                    <h3>Son Fəaliyyətlər</h3>
+                                    <p>Son 24 saat ərzində baş verən fəaliyyətlər</p>
+                                </div>
+                                <div class="card-content">
+                                    <div class="activity-list">
+                                        <div class="activity-item">
+                                            <div class="activity-icon entry">
+                                                <i class="fas fa-plus"></i>
+                                            </div>
+                                            <div class="activity-details">
+                                                <p class="activity-text">200 kg Sement daxil edildi</p>
+                                                <div class="activity-meta">
+                                                    <div class="activity-user">
+                                                        <div class="avatar">ƏM</div>
+                                                        <span>Əli Məmmədov • Bu gün, 10:25</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="activity-item">
+                                            <div class="activity-icon exit">
+                                                <i class="fas fa-minus"></i>
+                                            </div>
+                                            <div class="activity-details">
+                                                <p class="activity-text">15 ədəd Armatur (12mm) istifadə edildi</p>
+                                                <div class="activity-meta">
+                                                    <div class="activity-user">
+                                                        <div class="avatar">VƏ</div>
+                                                        <span>Vüsal Əliyev • Bu gün, 09:15</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="activity-item">
+                                            <div class="activity-icon order">
+                                                <i class="fas fa-truck"></i>
+                                            </div>
+                                            <div class="activity-details">
+                                                <p class="activity-text">500 ədəd Kərpic sifariş edildi</p>
+                                                <div class="activity-meta">
+                                                    <div class="activity-user">
+                                                        <div class="avatar">SH</div>
+                                                        <span>Səbinə Hüseynova • Bu gün, 08:30</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="activity-item">
+                                            <div class="activity-icon alert">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </div>
+                                            <div class="activity-details">
+                                                <p class="activity-text">Sement kritik səviyyəyə düşdü (120 kg)</p>
+                                                <div class="activity-meta">
+                                                    <div class="activity-user">
+                                                        <div class="avatar">SİS</div>
+                                                        <span>Sistem • Bu gün, 07:45</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="inventory-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>İnventar Siyahısı</h3>
+                                <p>Bütün tikinti materialları və avadanlıqların siyahısı</p>
+                            </div>
+                            <div class="card-content">
+                                <div class="table-actions">
+                                    <div class="search-container">
+                                        <i class="fas fa-search"></i>
+                                        <input type="search" id="inventorySearch" placeholder="Material və ya kateqoriya axtar...">
+                                    </div>
+                                    <button class="btn btn-primary" id="addMaterialBtnTab">Yeni Əlavə Et</button>
+                                </div>
+                                <div class="table-container">
+                                    <table class="data-table" id="inventoryTable">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Ad</th>
+                                                <th>Kateqoriya</th>
+                                                <th class="text-right">Miqdar</th>
+                                                <th>Status</th>
+                                                <th>Son Yeniləmə</th>
+                                                <th class="text-right">Əməliyyatlar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Inventory data will be loaded here by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="reports-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Hesabatlar</h3>
+                                <p>Həftəlik və aylıq istifadə hesabatları</p>
+                            </div>
+                            <div class="card-content">
+                                <div class="reports-list">
+                                    <div class="report-item">
+                                        <h4>Aylıq İstifadə Hesabatı - May 2025</h4>
+                                        <p>Bütün materialların aylıq istifadə statistikası</p>
+                                        <button class="btn btn-outline show-report" data-report="monthly">
+                                            <i class="fas fa-chart-bar"></i>
+                                            Hesabatı Göstər
+                                        </button>
+                                    </div>
+
+                                    <div class="report-item">
+                                        <h4>Həftəlik İstifadə Hesabatı - 6-12 May, 2025</h4>
+                                        <p>Bütün materialların həftəlik istifadə statistikası</p>
+                                        <button class="btn btn-outline show-report" data-report="weekly">
+                                            <i class="fas fa-chart-bar"></i>
+                                            Hesabatı Göstər
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="alerts-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Bildirişlər</h3>
+                                <p>Kritik səviyyə və digər bildirişlər</p>
+                            </div>
+                            <div class="card-content">
+                                <div class="alerts-list">
+                                    <div class="alert-item critical">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <div class="alert-details">
+                                            <h4>Sement - Kritik Səviyyə</h4>
+                                            <p>Qalan miqdar: 120kg (Minimum: 200kg)</p>
+                                            <button class="btn btn-outline order-btn" data-material="Sement">Sifariş Et</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="alert-item critical">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <div class="alert-details">
+                                            <h4>Armatur (12mm) - Kritik Səviyyə</h4>
+                                            <p>Qalan miqdar: 45 ədəd (Minimum: 100 ədəd)</p>
+                                            <button class="btn btn-outline order-btn" data-material="Armatur (12mm)">Sifariş Et</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="alert-item warning">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <div class="alert-details">
+                                            <h4>Kərpic - Aşağı Səviyyə</h4>
+                                            <p>Qalan miqdar: 350 ədəd (Minimum: 500 ədəd)</p>
+                                            <button class="btn btn-outline order-btn" data-material="Kərpic">Sifariş Et</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Page -->
+            <div class="page" id="inventory">
+                <div class="page-header">
+                    <h1>İnventar</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="addMaterialBtnPage">
+                            <i class="fas fa-plus"></i>
+                            Yeni Material Əlavə Et
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>İnventar Siyahısı</h3>
+                        <p>Bütün tikinti materialları və avadanlıqların siyahısı</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-actions">
+                            <div class="search-container">
+                                <i class="fas fa-search"></i>
+                                <input type="search" id="inventorySearchPage" placeholder="Material və ya kateqoriya axtar...">
+                            </div>
+                            <div class="filter-container">
+                                <select id="categoryFilter" class="filter-select">
+                                    <option value="">Bütün Kateqoriyalar</option>
+                                    <option value="Tikinti Materialı">Tikinti Materialı</option>
+                                    <option value="Metal">Metal</option>
+                                    <option value="Avadanlıq">Avadanlıq</option>
+                                </select>
+                                <select id="statusFilter" class="filter-select">
+                                    <option value="">Bütün Statuslar</option>
+                                    <option value="critical">Kritik</option>
+                                    <option value="low">Aşağı</option>
+                                    <option value="normal">Normal</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="inventoryTablePage">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Ad</th>
+                                        <th>Kateqoriya</th>
+                                        <th class="text-right">Miqdar</th>
+                                        <th>Status</th>
+                                        <th>Son Yeniləmə</th>
+                                        <th class="text-right">Əməliyyatlar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Inventory data will be loaded here by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Page -->
+            <div class="page" id="orders">
+                <div class="page-header">
+                    <h1>Sifarişlər</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="newOrderBtn">
+                            <i class="fas fa-plus"></i>
+                            Yeni Sifariş
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Sifariş Siyahısı</h3>
+                        <p>Bütün material sifarişlərinin siyahısı</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-actions">
+                            <div class="search-container">
+                                <i class="fas fa-search"></i>
+                                <input type="search" id="orderSearch" placeholder="Sifariş axtar...">
+                            </div>
+                            <div class="filter-container">
+                                <select id="orderStatusFilter" class="filter-select">
+                                    <option value="">Bütün Statuslar</option>
+                                    <option value="pending">Gözləyir</option>
+                                    <option value="confirmed">Təsdiqlənib</option>
+                                    <option value="shipping">Yoldadır</option>
+                                    <option value="completed">Tamamlanıb</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="ordersTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Material</th>
+                                        <th>Miqdar</th>
+                                        <th>Tarix</th>
+                                        <th>Status</th>
+                                        <th>Təchizatçı</th>
+                                        <th class="text-right">Əməliyyatlar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Orders data will be loaded here by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Page -->
+            <div class="page" id="reports">
+                <div class="page-header">
+                    <h1>Hesabatlar</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" id="exportReportBtn">
+                            <i class="fas fa-file-export"></i>
+                            Hesabatı İxrac Et
+                        </button>
+                        <button class="btn btn-outline" id="printReportBtn">
+                            <i class="fas fa-print"></i>
+                            Çap Et
+                        </button>
+                    </div>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Aylıq Hesabatlar</h3>
+                            <p>Aylıq material istifadəsi və sifarişlər</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="reports-list">
+                                <div class="report-item">
+                                    <h4>May 2025 - Material İstifadəsi</h4>
+                                    <p>Bütün materialların aylıq istifadə statistikası</p>
+                                    <button class="btn btn-outline show-report" data-report="monthly-usage">
+                                        <i class="fas fa-chart-bar"></i>
+                                        Hesabatı Göstər
+                                    </button>
+                                </div>
+                                <div class="report-item">
+                                    <h4>May 2025 - Sifarişlər</h4>
+                                    <p>Aylıq sifariş statistikası və xərclər</p>
+                                    <button class="btn btn-outline show-report" data-report="monthly-orders">
+                                        <i class="fas fa-chart-bar"></i>
+                                        Hesabatı Göstər
+                                    </button>
+                                </div>
+                                <div class="report-item">
+                                    <h4>May 2025 - Xərc Analizi</h4>
+                                    <p>Aylıq xərclərin kateqoriyalar üzrə analizi</p>
+                                    <button class="btn btn-outline show-report" data-report="monthly-expenses">
+                                        <i class="fas fa-chart-bar"></i>
+                                        Hesabatı Göstər
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Həftəlik Hesabatlar</h3>
+                            <p>Həftəlik material istifadəsi və sifarişlər</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="reports-list">
+                                <div class="report-item">
+                                    <h4>6-12 May, 2025 - Material İstifadəsi</h4>
+                                    <p>Bütün materialların həftəlik istifadə statistikası</p>
+                                    <button class="btn btn-outline show-report" data-report="weekly-usage">
+                                        <i class="fas fa-chart-bar"></i>
+                                        Hesabatı Göstər
+                                    </button>
+                                </div>
+                                <div class="report-item">
+                                    <h4>6-12 May, 2025 - Sifarişlər</h4>
+                                    <p>Həftəlik sifariş statistikası və xərclər</p>
+                                    <button class="btn btn-outline show-report" data-report="weekly-orders">
+                                        <i class="fas fa-chart-bar"></i>
+                                        Hesabatı Göstər
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" id="reportDisplay" style="display: none;">
+                    <div class="card-header">
+                        <div class="report-header-flex">
+                            <h3 id="reportTitle">Hesabat Başlığı</h3>
+                            <button class="btn btn-outline close-report">
+                                <i class="fas fa-times"></i>
+                                Bağla
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="report-content">
+                            <div class="report-content-item">
+                            <canvas id="reportChart"></canvas>
+                            </div>
+                            <div id="reportData"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications Page -->
+            <div class="page" id="notifications">
+                <div class="page-header">
+                    <h1>Bildirişlər</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" id="markAllReadBtn">
+                            <i class="fas fa-check-double"></i>
+                            Hamısını Oxunmuş Et
+                        </button>
+                        <button class="btn btn-outline" id="notificationSettingsBtn">
+                            <i class="fas fa-cog"></i>
+                            Bildiriş Tənzimləmələri
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Kritik Səviyyə Bildirişləri</h3>
+                        <p>Material miqdarı kritik səviyyəyə düşdükdə yaranan bildirişlər</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="alerts-list">
+                            <div class="alert-item critical">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div class="alert-details">
+                                    <h4>Sement - Kritik Səviyyə</h4>
+                                    <p>Qalan miqdar: 120kg (Minimum: 200kg)</p>
+                                    <div class="alert-actions">
+                                        <button class="btn btn-outline order-btn" data-material="Sement">Sifariş Et</button>
+                                        <button class="btn btn-text dismiss-btn">Rədd Et</button>
+                                    </div>
+                                    <div class="alert-time">12.05.2025, 10:15</div>
+                                </div>
+                            </div>
+
+                            <div class="alert-item critical">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div class="alert-details">
+                                    <h4>Armatur (12mm) - Kritik Səviyyə</h4>
+                                    <p>Qalan miqdar: 45 ədəd (Minimum: 100 ədəd)</p>
+                                    <div class="alert-actions">
+                                        <button class="btn btn-outline order-btn" data-material="Armatur (12mm)">Sifariş Et</button>
+                                        <button class="btn btn-text dismiss-btn">Rədd Et</button>
+                                    </div>
+                                    <div class="alert-time">11.05.2025, 14:30</div>
+                                </div>
+                            </div>
+
+                            <div class="alert-item warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div class="alert-details">
+                                    <h4>Kərpic - Aşağı Səviyyə</h4>
+                                    <p>Qalan miqdar: 350 ədəd (Minimum: 500 ədəd)</p>
+                                    <div class="alert-actions">
+                                        <button class="btn btn-outline order-btn" data-material="Kərpic">Sifariş Et</button>
+                                        <button class="btn btn-text dismiss-btn">Rədd Et</button>
+                                    </div>
+                                    <div class="alert-time">10.05.2025, 09:45</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Sistem Bildirişləri</h3>
+                        <p>Sistem tərəfindən yaranan bildirişlər</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="alerts-list">
+                            <div class="alert-item info">
+                                <i class="fas fa-info-circle"></i>
+                                <div class="alert-details">
+                                    <h4>Sistem Yeniləməsi</h4>
+                                    <p>Sistem 15.05.2025 tarixində saat 02:00-da yenilənəcək. Təxminən 30 dəqiqə ərzində sistem əlçatmaz olacaq.</p>
+                                    <div class="alert-actions">
+                                        <button class="btn btn-text dismiss-btn">Rədd Et</button>
+                                    </div>
+                                    <div class="alert-time">08.05.2025, 11:20</div>
+                                </div>
+                            </div>
+
+                            <div class="alert-item success">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="alert-details">
+                                    <h4>Sifariş Tamamlandı</h4>
+                                    <p>ORD004 nömrəli sifariş uğurla tamamlandı və anbara daxil edildi.</p>
+                                    <div class="alert-actions">
+                                        <button class="btn btn-text dismiss-btn">Rədd Et</button>
+                                    </div>
+                                    <div class="alert-time">05.05.2025, 15:40</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Page -->
+            <div class="page" id="users">
+                <div class="page-header">
+                    <h1>İstifadəçilər</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="addUserBtn">
+                            <i class="fas fa-user-plus"></i>
+                            Yeni İstifadəçi
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>İstifadəçi Siyahısı</h3>
+                        <p>Sistemdə qeydiyyatda olan bütün istifadəçilər</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-actions">
+                            <div class="search-container">
+                                <i class="fas fa-search"></i>
+                                <input type="search" id="userSearch" placeholder="İstifadəçi axtar...">
+                            </div>
+                            <div class="filter-container">
+                                <select id="roleFilter" class="filter-select">
+                                    <option value="">Bütün Rollar</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Menecer">Menecer</option>
+                                    <option value="İşçi">İşçi</option>
+                                </select>
+                                <select id="statusFilter" class="filter-select">
+                                    <option value="">Bütün Statuslar</option>
+                                    <option value="active">Aktiv</option>
+                                    <option value="inactive">Qeyri-aktiv</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th>İstifadəçi</th>
+                                        <th>Email</th>
+                                        <th>Rol</th>
+                                        <th>Status</th>
+                                        <th>Qeydiyyat Tarixi</th>
+                                        <th class="text-right">Əməliyyatlar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Users data will be loaded here by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div class="page" id="settings">
+                <div class="page-header">
+                    <h1>Tənzimləmələr</h1>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Profil Məlumatları</h3>
+                            <p>Profil məlumatlarınızı yeniləyin</p>
+                        </div>
+                        <div class="card-content">
+                            <form id="profileForm" class="settings-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="firstName">Ad</label>
+                                        <input type="text" id="firstName" name="firstName" value="Əli">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Soyad</label>
+                                        <input type="text" id="lastName" name="lastName" value="Məmmədov">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" value="ali.m@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="company">Şirkət</label>
+                                    <input type="text" id="company" name="company" value="Bakı Tikinti MMC">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Telefon</label>
+                                    <input type="tel" id="phone" name="phone" value="+994 50 123 45 67">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Yadda Saxla</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Şifrə Dəyişdirmə</h3>
+                            <p>Hesabınızın şifrəsini dəyişdirin</p>
+                        </div>
+                        <div class="card-content">
+                            <form id="passwordForm" class="settings-form">
+                                <div class="form-group">
+                                    <label for="currentPassword">Cari Şifrə</label>
+                                    <input type="password" id="currentPassword" name="currentPassword">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPassword">Yeni Şifrə</label>
+                                    <input type="password" id="newPassword" name="newPassword">
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Şifrəni Təsdiqlə</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Şifrəni Dəyişdir</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Sistem Tənzimləmələri</h3>
+                            <p>Sistem tənzimləmələrini idarə edin</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="settings-list">
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>Avtomatik Bildirişlər</h4>
+                                        <p>Kritik səviyyə bildirişlərini avtomatik göndər</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <label class="switch">
+                                            <input type="checkbox" checked id="autoNotifications">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>Avtomatik Hesabatlar</h4>
+                                        <p>Həftəlik hesabatları avtomatik göndər</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <label class="switch">
+                                            <input type="checkbox" checked id="autoReports">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>Qaranlıq Rejim</h4>
+                                        <p>Sistemin görünüşünü qaranlıq rejimə keçir</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <label class="switch">
+                                            <input type="checkbox" id="darkMode">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>Kritik Səviyyə Həddi</h4>
+                                        <p>Materialların kritik səviyyə həddini təyin edin</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <select id="criticalLevel" class="setting-select">
+                                            <option value="10">10%</option>
+                                            <option value="15">15%</option>
+                                            <option value="20" selected>20%</option>
+                                            <option value="25">25%</option>
+                                            <option value="30">30%</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" id="saveSettingsBtn">Tənzimləmələri Yadda Saxla</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Bildiriş Tənzimləmələri</h3>
+                            <p>Bildiriş tənzimləmələrini idarə edin</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="settings-list">
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>Email Bildirişləri</h4>
+                                        <p>Kritik səviyyə bildirişlərini email ilə al</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <label class="switch">
+                                            <input type="checkbox" checked id="emailNotifications">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>SMS Bildirişləri</h4>
+                                        <p>Kritik səviyyə bildirişlərini SMS ilə al</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <label class="switch">
+                                            <input type="checkbox" id="smsNotifications">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>Brauzer Bildirişləri</h4>
+                                        <p>Brauzer bildirişlərini aktivləşdir</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <label class="switch">
+                                            <input type="checkbox" checked id="browserNotifications">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="addMaterialModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni Material Əlavə Et</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addMaterialForm" class="form">
+                    <div class="form-group">
+                        <label for="materialName">Material Adı</label>
+                        <input type="text" id="materialName" name="materialName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="materialCategory">Kateqoriya</label>
+                        <select id="materialCategory" name="materialCategory" required>
+                            <option value="">Kateqoriya Seçin</option>
+                            <option value="Tikinti Materialı">Tikinti Materialı</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Avadanlıq">Avadanlıq</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="materialQuantity">Miqdar</label>
+                            <input type="number" id="materialQuantity" name="materialQuantity" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="materialUnit">Ölçü Vahidi</label>
+                            <select id="materialUnit" name="materialUnit" required>
+                                <option value="">Vahid Seçin</option>
+                                <option value="kg">kg</option>
+                                <option value="ədəd">ədəd</option>
+                                <option value="m">m</option>
+                                <option value="m²">m²</option>
+                                <option value="m³">m³</option>
+                                <option value="l">l</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="materialMinLevel">Minimum Səviyyə</label>
+                        <input type="number" id="materialMinLevel" name="materialMinLevel" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="materialDescription">Əlavə Məlumat</label>
+                        <textarea id="materialDescription" name="materialDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline cancel-modal">Ləğv Et</button>
+                        <button type="submit" class="btn btn-primary">Əlavə Et</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newOrderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni Sifariş</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="newOrderForm" class="form">
+                    <div class="form-group">
+                        <label for="orderMaterial">Material</label>
+                        <select id="orderMaterial" name="orderMaterial" required>
+                            <option value="">Material Seçin</option>
+                            <!-- Options will be loaded by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="orderQuantity">Miqdar</label>
+                            <input type="number" id="orderQuantity" name="orderQuantity" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="orderUnit">Ölçü Vahidi</label>
+                            <input type="text" id="orderUnit" name="orderUnit" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderSupplier">Təchizatçı</label>
+                        <select id="orderSupplier" name="orderSupplier" required>
+                            <option value="">Təchizatçı Seçin</option>
+                            <option value="Bakı Tikinti Materialları">Bakı Tikinti Materialları</option>
+                            <option value="Metal Təchizat MMC">Metal Təchizat MMC</option>
+                            <option value="Sumqayıt Tikinti">Sumqayıt Tikinti</option>
+                            <option value="Abşeron Tikinti">Abşeron Tikinti</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderNotes">Qeydlər</label>
+                        <textarea id="orderNotes" name="orderNotes" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline cancel-modal">Ləğv Et</button>
+                        <button type="submit" class="btn btn-primary">Sifariş Et</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yeni İstifadəçi Əlavə Et</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="userFirstName">Ad</label>
+                            <input type="text" id="userFirstName" name="userFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userLastName">Soyad</label>
+                            <input type="text" id="userLastName" name="userLastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email</label>
+                        <input type="email" id="userEmail" name="userEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userRole">Rol</label>
+                        <select id="userRole" name="userRole" required>
+                            <option value="">Rol Seçin</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Menecer">Menecer</option>
+                            <option value="İşçi">İşçi</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPosition">Vəzifə</label>
+                        <input type="text" id="userPosition" name="userPosition" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassword">Şifrə</label>
+                        <input type="password" id="userPassword" name="userPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userConfirmPassword">Şifrəni Təsdiqlə</label>
+                        <input type="password" id="userConfirmPassword" name="userConfirmPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline cancel-modal">Ləğv Et</button>
+                        <button type="submit" class="btn btn-primary">Əlavə Et</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
