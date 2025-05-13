@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Initialize inventory data from localStorage or use default data
     let inventoryData = loadFromLocalStorage('inventoryData') || [
         {
@@ -201,10 +201,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load inventory tables
     loadInventoryTable(inventoryData, 'inventoryTable');
     loadInventoryTable(inventoryData, 'inventoryTablePage');
-    
+
     // Load orders table
     loadOrdersTable(ordersData);
-    
+
     // Load users table
     loadUsersTable(usersData);
 
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Convert all date inputs to have type="date"
         document.querySelectorAll('input[data-type="date"]').forEach(input => {
             input.type = 'date';
-            
+
             // Set default value to today if not already set
             if (!input.value) {
                 const today = new Date();
@@ -256,26 +256,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Format date from yyyy-mm-dd to dd.mm.yyyy
     function formatDate(dateString) {
         if (!dateString) return '';
-        
+
         // Check if date is already in dd.mm.yyyy format
         if (dateString.includes('.')) return dateString;
-        
+
         const parts = dateString.split('-');
         if (parts.length !== 3) return dateString;
-        
+
         return `${parts[2]}.${parts[1]}.${parts[0]}`;
     }
 
     // Parse date from dd.mm.yyyy to yyyy-mm-dd
     function parseDate(dateString) {
         if (!dateString) return '';
-        
+
         // Check if date is already in yyyy-mm-dd format
         if (dateString.includes('-')) return dateString;
-        
+
         const parts = dateString.split('.');
         if (parts.length !== 3) return dateString;
-        
+
         return `${parts[2]}-${parts[1]}-${parts[0]}`;
     }
 
@@ -283,15 +283,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadInventoryTable(data, tableId) {
         const tableBody = document.querySelector(`#${tableId} tbody`);
         if (!tableBody) return;
-        
+
         tableBody.innerHTML = '';
 
         data.forEach(item => {
             const row = document.createElement('tr');
-            
+
             // Status badge class based on status
             let statusBadgeClass = '';
-            switch(item.status) {
+            switch (item.status) {
                 case 'critical':
                     statusBadgeClass = 'badge-critical';
                     break;
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Status text based on status
             let statusText = '';
-            switch(item.status) {
+            switch (item.status) {
                 case 'critical':
                     statusText = 'Kritik';
                     break;
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </td>
             `;
-            
+
             tableBody.appendChild(row);
         });
 
@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Increase quantity buttons
         table.querySelectorAll('.increase-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const itemId = this.getAttribute('data-id');
                 increaseQuantity(itemId);
             });
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Decrease quantity buttons
         table.querySelectorAll('.decrease-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const itemId = this.getAttribute('data-id');
                 decreaseQuantity(itemId);
             });
@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Delete buttons
         table.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const itemId = this.getAttribute('data-id');
                 deleteInventoryItem(itemId);
             });
@@ -378,17 +378,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadOrdersTable(data) {
         const tableBody = document.querySelector('#ordersTable tbody');
         if (!tableBody) return;
-        
+
         tableBody.innerHTML = '';
 
         data.forEach(order => {
             const row = document.createElement('tr');
-            
+
             // Status badge class based on status
             let statusBadgeClass = '';
             let statusText = '';
-            
-            switch(order.status) {
+
+            switch (order.status) {
                 case 'pending':
                     statusBadgeClass = 'badge-pending';
                     statusText = 'Gözləyir';
@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Only show confirm button for orders that are not completed
-            const confirmButton = order.status !== 'completed' ? 
+            const confirmButton = order.status !== 'completed' ?
                 `<button class="action-btn confirm-order-btn" data-id="${order.id}" title="Təsdiqlə">
                     <i class="fas fa-check"></i>
                 </button>` : '';
@@ -432,13 +432,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </td>
             `;
-            
+
             tableBody.appendChild(row);
         });
 
         // Add event listeners to order action buttons
         document.querySelectorAll('.delete-order-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const orderId = this.getAttribute('data-id');
                 deleteOrder(orderId);
             });
@@ -446,7 +446,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Add event listeners to confirm order buttons
         document.querySelectorAll('.confirm-order-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const orderId = this.getAttribute('data-id');
                 confirmOrder(orderId);
             });
@@ -457,12 +457,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadSuppliersTable(data) {
         const tableBody = document.querySelector('#suppliersTable tbody');
         if (!tableBody) return;
-        
+
         tableBody.innerHTML = '';
 
         data.forEach(supplier => {
             const row = document.createElement('tr');
-            
+
             // Status badge class based on status
             let statusBadgeClass = supplier.status === 'active' ? 'badge-normal' : 'badge-critical';
             let statusText = supplier.status === 'active' ? 'Aktiv' : 'Qeyri-aktiv';
@@ -485,20 +485,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </td>
             `;
-            
+
             tableBody.appendChild(row);
         });
 
         // Add event listeners to supplier action buttons
         document.querySelectorAll('.edit-supplier-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const supplierId = this.getAttribute('data-id');
                 editSupplier(supplierId);
             });
         });
 
         document.querySelectorAll('.delete-supplier-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const supplierId = this.getAttribute('data-id');
                 deleteSupplier(supplierId);
             });
@@ -518,37 +518,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Find matching inventory item or create new one
         let inventoryItem = inventoryData.find(item => item.name === order.material);
-        
+
         if (inventoryItem) {
             // Update existing inventory item
             inventoryItem.quantity += order.quantity;
-            
+
             // Update status based on new quantity
             if (inventoryItem.quantity > inventoryItem.minLevel) {
                 inventoryItem.status = 'normal';
             } else if (inventoryItem.quantity > inventoryItem.minLevel * 0.5) {
                 inventoryItem.status = 'low';
             }
-            
+
             // Update last updated date
             inventoryItem.lastUpdated = new Date().toLocaleDateString('az-AZ');
         } else {
             // Create new inventory item
             const newItemId = `INV${String(inventoryData.length + 1).padStart(3, '0')}`;
-            
+
             // Determine category based on material name (simplified logic)
             let category = 'Tikinti Materialı';
             if (order.material.toLowerCase().includes('armatur')) {
                 category = 'Metal';
-            } else if (order.material.toLowerCase().includes('avadanlıq') || 
-                       order.material.toLowerCase().includes('generator') ||
-                       order.material.toLowerCase().includes('qarışdırıcı')) {
+            } else if (order.material.toLowerCase().includes('avadanlıq') ||
+                order.material.toLowerCase().includes('generator') ||
+                order.material.toLowerCase().includes('qarışdırıcı')) {
                 category = 'Avadanlıq';
             }
-            
+
             // Determine min level (simplified logic)
             const minLevel = Math.round(order.quantity * 0.2);
-            
+
             inventoryItem = {
                 id: newItemId,
                 name: order.material,
@@ -559,23 +559,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 status: 'normal',
                 lastUpdated: new Date().toLocaleDateString('az-AZ')
             };
-            
+
             // Add to inventory data
             inventoryData.push(inventoryItem);
         }
-        
+
         // Update order status to completed
         order.status = 'completed';
-        
+
         // Save changes to localStorage
         saveToLocalStorage('inventoryData', inventoryData);
         saveToLocalStorage('ordersData', ordersData);
-        
+
         // Reload tables
         loadInventoryTable(inventoryData, 'inventoryTable');
         loadInventoryTable(inventoryData, 'inventoryTablePage');
         loadOrdersTable(ordersData);
-        
+
         // Show success toast
         showToast(`${order.material} sifarişi təsdiqləndi və inventara əlavə edildi`, 'success');
     }
@@ -584,12 +584,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadUsersTable(data) {
         const tableBody = document.querySelector('#usersTable tbody');
         if (!tableBody) return;
-        
+
         tableBody.innerHTML = '';
 
         data.forEach(user => {
             const row = document.createElement('tr');
-            
+
             // Status badge class based on status
             let statusBadgeClass = user.status === 'active' ? 'badge-normal' : 'badge-critical';
             let statusText = user.status === 'active' ? 'Aktiv' : 'Qeyri-aktiv';
@@ -620,13 +620,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </td>
             `;
-            
+
             tableBody.appendChild(row);
         });
 
         // Add event listeners to user action buttons
         document.querySelectorAll('.delete-user-btn').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const userEmail = this.getAttribute('data-email');
                 deleteUser(userEmail);
             });
@@ -636,10 +636,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Search functionality for inventory table
     const inventorySearch = document.getElementById('inventorySearch');
     if (inventorySearch) {
-        inventorySearch.addEventListener('input', function() {
+        inventorySearch.addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
-            const filteredData = inventoryData.filter(item => 
-                item.name.toLowerCase().includes(searchTerm) || 
+            const filteredData = inventoryData.filter(item =>
+                item.name.toLowerCase().includes(searchTerm) ||
                 item.category.toLowerCase().includes(searchTerm)
             );
             loadInventoryTable(filteredData, 'inventoryTable');
@@ -649,10 +649,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Search functionality for inventory page
     const inventorySearchPage = document.getElementById('inventorySearchPage');
     if (inventorySearchPage) {
-        inventorySearchPage.addEventListener('input', function() {
+        inventorySearchPage.addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
-            const filteredData = inventoryData.filter(item => 
-                item.name.toLowerCase().includes(searchTerm) || 
+            const filteredData = inventoryData.filter(item =>
+                item.name.toLowerCase().includes(searchTerm) ||
                 item.category.toLowerCase().includes(searchTerm)
             );
             loadInventoryTable(filteredData, 'inventoryTablePage');
@@ -662,7 +662,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Category filter for inventory page
     const categoryFilter = document.getElementById('categoryFilter');
     if (categoryFilter) {
-        categoryFilter.addEventListener('change', function() {
+        categoryFilter.addEventListener('change', function () {
             filterInventory();
         });
     }
@@ -670,7 +670,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Status filter for inventory page
     const statusFilter = document.getElementById('statusFilter');
     if (statusFilter) {
-        statusFilter.addEventListener('change', function() {
+        statusFilter.addEventListener('change', function () {
             filterInventory();
         });
     }
@@ -680,34 +680,34 @@ document.addEventListener('DOMContentLoaded', function() {
         const categoryValue = categoryFilter ? categoryFilter.value : '';
         const statusValue = statusFilter ? statusFilter.value : '';
         const searchTerm = inventorySearchPage ? inventorySearchPage.value.toLowerCase() : '';
-        
+
         let filteredData = inventoryData;
-        
+
         if (searchTerm) {
-            filteredData = filteredData.filter(item => 
-                item.name.toLowerCase().includes(searchTerm) || 
+            filteredData = filteredData.filter(item =>
+                item.name.toLowerCase().includes(searchTerm) ||
                 item.category.toLowerCase().includes(searchTerm)
             );
         }
-        
+
         if (categoryValue) {
             filteredData = filteredData.filter(item => item.category === categoryValue);
         }
-        
+
         if (statusValue) {
             filteredData = filteredData.filter(item => item.status === statusValue);
         }
-        
+
         loadInventoryTable(filteredData, 'inventoryTablePage');
     }
 
     // Search functionality for orders table
     const orderSearch = document.getElementById('orderSearch');
     if (orderSearch) {
-        orderSearch.addEventListener('input', function() {
+        orderSearch.addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
-            const filteredData = ordersData.filter(order => 
-                order.material.toLowerCase().includes(searchTerm) || 
+            const filteredData = ordersData.filter(order =>
+                order.material.toLowerCase().includes(searchTerm) ||
                 order.supplier.toLowerCase().includes(searchTerm)
             );
             loadOrdersTable(filteredData);
@@ -717,14 +717,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Order status filter
     const orderStatusFilter = document.getElementById('orderStatusFilter');
     if (orderStatusFilter) {
-        orderStatusFilter.addEventListener('change', function() {
+        orderStatusFilter.addEventListener('change', function () {
             const statusValue = this.value;
             let filteredData = ordersData;
-            
+
             if (statusValue) {
                 filteredData = filteredData.filter(order => order.status === statusValue);
             }
-            
+
             loadOrdersTable(filteredData);
         });
     }
@@ -732,10 +732,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Search functionality for users table
     const userSearch = document.getElementById('userSearch');
     if (userSearch) {
-        userSearch.addEventListener('input', function() {
+        userSearch.addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
-            const filteredData = usersData.filter(user => 
-                user.name.toLowerCase().includes(searchTerm) || 
+            const filteredData = usersData.filter(user =>
+                user.name.toLowerCase().includes(searchTerm) ||
                 user.email.toLowerCase().includes(searchTerm)
             );
             loadUsersTable(filteredData);
@@ -745,10 +745,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Search functionality for suppliers table
     const supplierSearch = document.getElementById('supplierSearch');
     if (supplierSearch) {
-        supplierSearch.addEventListener('input', function() {
+        supplierSearch.addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
-            const filteredData = suppliersData.filter(supplier => 
-                supplier.name.toLowerCase().includes(searchTerm) || 
+            const filteredData = suppliersData.filter(supplier =>
+                supplier.name.toLowerCase().includes(searchTerm) ||
                 supplier.contact.toLowerCase().includes(searchTerm) ||
                 supplier.email.toLowerCase().includes(searchTerm)
             );
@@ -759,7 +759,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Role filter for users
     const roleFilter = document.getElementById('roleFilter');
     if (roleFilter) {
-        roleFilter.addEventListener('change', function() {
+        roleFilter.addEventListener('change', function () {
             filterUsers();
         });
     }
@@ -767,7 +767,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Status filter for users
     const userStatusFilter = document.getElementById('statusFilter');
     if (userStatusFilter) {
-        userStatusFilter.addEventListener('change', function() {
+        userStatusFilter.addEventListener('change', function () {
             filterUsers();
         });
     }
@@ -777,35 +777,35 @@ document.addEventListener('DOMContentLoaded', function() {
         const roleValue = roleFilter ? roleFilter.value : '';
         const statusValue = userStatusFilter ? userStatusFilter.value : '';
         const searchTerm = userSearch ? userSearch.value.toLowerCase() : '';
-        
+
         let filteredData = usersData;
-        
+
         if (searchTerm) {
-            filteredData = filteredData.filter(user => 
-                user.name.toLowerCase().includes(searchTerm) || 
+            filteredData = filteredData.filter(user =>
+                user.name.toLowerCase().includes(searchTerm) ||
                 user.email.toLowerCase().includes(searchTerm)
             );
         }
-        
+
         if (roleValue) {
             filteredData = filteredData.filter(user => user.role === roleValue);
         }
-        
+
         if (statusValue) {
             filteredData = filteredData.filter(user => user.status === statusValue);
         }
-        
+
         loadUsersTable(filteredData);
     }
 
     // Tab switching
     const tabButtons = document.querySelectorAll('.tab-btn');
     tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             // Remove active class from all buttons and content
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
+
             // Add active class to clicked button and corresponding content
             this.classList.add('active');
             const tabId = this.getAttribute('data-tab');
@@ -816,17 +816,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Sidebar navigation
     const navItems = document.querySelectorAll('.sidebar-nav li');
     navItems.forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function () {
             // Remove active class from all items
             navItems.forEach(navItem => navItem.classList.remove('active'));
-            
+
             // Add active class to clicked item
             this.classList.add('active');
-            
+
             // Handle page switching
             const pageName = this.getAttribute('data-page');
             switchPage(pageName);
-            
+
             // Save active page to localStorage
             localStorage.setItem('activePage', pageName);
         });
@@ -838,7 +838,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.page').forEach(page => {
             page.classList.remove('active');
         });
-        
+
         // Show selected page
         const selectedPage = document.getElementById(pageName);
         if (selectedPage) {
@@ -917,7 +917,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show report functionality
     const showReportButtons = document.querySelectorAll('.show-report');
     showReportButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const reportType = this.getAttribute('data-report');
             showReport(reportType);
         });
@@ -929,14 +929,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const reportTitle = document.getElementById('reportTitle');
         const reportData = document.getElementById('reportData');
         const reportChart = document.getElementById('reportChart');
-        
+
         if (!reportDisplay || !reportTitle || !reportData || !reportChart) return;
-        
+
         // Show report display
         reportDisplay.style.display = 'block';
-        
+
         // Set report title and data based on report type
-        switch(reportType) {
+        switch (reportType) {
             case 'monthly':
             case 'monthly-usage':
                 reportTitle.textContent = 'Aylıq Material İstifadəsi - May 2025';
@@ -973,7 +973,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.reportChartInstance) {
             window.reportChartInstance.destroy();
         }
-        
+
         // Create labels based on period
         let labels = [];
         if (period === 'week') {
@@ -981,7 +981,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             labels = ['1 May', '5 May', '10 May', '15 May', '20 May', '25 May', '30 May'];
         }
-        
+
         // Create chart
         window.reportChartInstance = new Chart(canvas, {
             type: 'bar',
@@ -1042,7 +1042,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.reportChartInstance) {
             window.reportChartInstance.destroy();
         }
-        
+
         // Create labels based on period
         let labels = [];
         if (period === 'week') {
@@ -1050,7 +1050,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             labels = ['1 May', '5 May', '10 May', '15 May', '20 May', '25 May', '30 May'];
         }
-        
+
         // Create chart
         window.reportChartInstance = new Chart(canvas, {
             type: 'line',
@@ -1098,7 +1098,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.reportChartInstance) {
             window.reportChartInstance.destroy();
         }
-        
+
         // Create chart
         window.reportChartInstance = new Chart(canvas, {
             type: 'pie',
@@ -1394,7 +1394,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close report button
     const closeReportButtons = document.querySelectorAll('.close-report');
     closeReportButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const reportDisplay = document.getElementById('reportDisplay');
             if (reportDisplay) {
                 reportDisplay.style.display = 'none';
@@ -1405,7 +1405,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Export report button
     const exportReportBtn = document.getElementById('exportReportBtn');
     if (exportReportBtn) {
-        exportReportBtn.addEventListener('click', function() {
+        exportReportBtn.addEventListener('click', function () {
             showToast('Hesabat PDF formatında ixrac edilir...', 'info');
             setTimeout(() => {
                 showToast('Hesabat uğurla ixrac edildi!', 'success');
@@ -1416,7 +1416,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Print report button
     const printReportBtn = document.getElementById('printReportBtn');
     if (printReportBtn) {
-        printReportBtn.addEventListener('click', function() {
+        printReportBtn.addEventListener('click', function () {
             showToast('Hesabat çap edilir...', 'info');
             setTimeout(() => {
                 showToast('Hesabat uğurla çap edildi!', 'success');
@@ -1427,7 +1427,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mark all notifications as read
     const markAllReadBtn = document.getElementById('markAllReadBtn');
     if (markAllReadBtn) {
-        markAllReadBtn.addEventListener('click', function() {
+        markAllReadBtn.addEventListener('click', function () {
             showToast('Bütün bildirişlər oxunmuş kimi qeyd edildi', 'success');
         });
     }
@@ -1435,7 +1435,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Notification settings button
     const notificationSettingsBtn = document.getElementById('notificationSettingsBtn');
     if (notificationSettingsBtn) {
-        notificationSettingsBtn.addEventListener('click', function() {
+        notificationSettingsBtn.addEventListener('click', function () {
             switchPage('settings');
             // Scroll to notification settings
             const notificationSettings = document.querySelector('.card:nth-child(4)');
@@ -1448,7 +1448,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Dismiss notification buttons
     const dismissButtons = document.querySelectorAll('.dismiss-btn');
     dismissButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const alertItem = this.closest('.alert-item');
             if (alertItem) {
                 alertItem.style.opacity = '0';
@@ -1462,7 +1462,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Order buttons in alerts
     const orderButtons = document.querySelectorAll('.order-btn');
     orderButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const material = this.getAttribute('data-material');
             openOrderModal(material);
         });
@@ -1474,11 +1474,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const materialSelect = document.getElementById('orderMaterial');
         const unitInput = document.getElementById('orderUnit');
         const supplierSelect = document.getElementById('orderSupplier');
-        
+
         if (modal && materialSelect) {
             // Clear previous options
             materialSelect.innerHTML = '<option value="">Material Seçin</option>';
-            
+
             // Add options from inventory data
             inventoryData.forEach(item => {
                 const option = document.createElement('option');
@@ -1487,7 +1487,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 option.setAttribute('data-unit', item.unit);
                 materialSelect.appendChild(option);
             });
-            
+
             // Select the material if provided
             if (material) {
                 const materialItem = inventoryData.find(item => item.name === material);
@@ -1503,7 +1503,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Clear previous supplier options
             if (supplierSelect) {
                 supplierSelect.innerHTML = '<option value="">Təchizatçı Seçin</option>';
-                
+
                 // Add options from suppliers data
                 suppliersData.forEach(supplier => {
                     if (supplier.status === 'active') {
@@ -1514,7 +1514,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             }
-            
+
             // Show modal
             modal.style.display = 'block';
         }
@@ -1523,10 +1523,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Material select change in order form
     const orderMaterial = document.getElementById('orderMaterial');
     if (orderMaterial) {
-        orderMaterial.addEventListener('change', function() {
+        orderMaterial.addEventListener('change', function () {
             const unitInput = document.getElementById('orderUnit');
             const selectedOption = this.options[this.selectedIndex];
-            
+
             if (unitInput && selectedOption) {
                 unitInput.value = selectedOption.getAttribute('data-unit') || '';
             }
@@ -1536,7 +1536,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // New order button
     const newOrderBtn = document.getElementById('newOrderBtn');
     if (newOrderBtn) {
-        newOrderBtn.addEventListener('click', function() {
+        newOrderBtn.addEventListener('click', function () {
             openOrderModal();
         });
     }
@@ -1544,7 +1544,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add material buttons
     const addMaterialBtns = document.querySelectorAll('#addMaterialBtn, #addMaterialBtnTab, #addMaterialBtnPage');
     addMaterialBtns.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             openAddMaterialModal();
         });
     });
@@ -1558,7 +1558,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (form) {
                 form.reset();
             }
-            
+
             // Show modal
             modal.style.display = 'block';
         }
@@ -1567,7 +1567,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add user button
     const addUserBtn = document.getElementById('addUserBtn');
     if (addUserBtn) {
-        addUserBtn.addEventListener('click', function() {
+        addUserBtn.addEventListener('click', function () {
             openAddUserModal();
         });
     }
@@ -1581,7 +1581,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (form) {
                 form.reset();
             }
-            
+
             // Show modal
             modal.style.display = 'block';
         }
@@ -1590,7 +1590,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add supplier button
     const addSupplierBtn = document.getElementById('addSupplierBtn');
     if (addSupplierBtn) {
-        addSupplierBtn.addEventListener('click', function() {
+        addSupplierBtn.addEventListener('click', function () {
             openAddSupplierModal();
         });
     }
@@ -1604,7 +1604,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (form) {
                 form.reset();
             }
-            
+
             // Show modal
             modal.style.display = 'block';
         }
@@ -1642,7 +1642,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close modal buttons
     const closeModalButtons = document.querySelectorAll('.close-modal, .cancel-modal');
     closeModalButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const modal = this.closest('.modal');
             if (modal) {
                 modal.style.display = 'none';
@@ -1651,7 +1651,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
+    window.addEventListener('click', function (event) {
         if (event.target.classList.contains('modal')) {
             event.target.style.display = 'none';
         }
@@ -1660,19 +1660,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add material form submit
     const addMaterialForm = document.getElementById('addMaterialForm');
     if (addMaterialForm) {
-        addMaterialForm.addEventListener('submit', function(event) {
+        addMaterialForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            
+
             // Get form data
             const name = document.getElementById('materialName').value;
             const category = document.getElementById('materialCategory').value;
             const quantity = parseInt(document.getElementById('materialQuantity').value);
             const unit = document.getElementById('materialUnit').value;
             const minLevel = parseInt(document.getElementById('materialMinLevel').value);
-            
+
             // Generate ID
             const id = `INV${String(inventoryData.length + 1).padStart(3, '0')}`;
-            
+
             // Determine status
             let status = 'normal';
             if (quantity <= minLevel * 0.5) {
@@ -1680,7 +1680,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (quantity <= minLevel) {
                 status = 'low';
             }
-            
+
             // Create new material
             const newMaterial = {
                 id,
@@ -1692,20 +1692,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 status,
                 lastUpdated: new Date().toLocaleDateString('az-AZ')
             };
-            
+
             // Add to inventory data
             inventoryData.push(newMaterial);
-            
+
             // Save to localStorage
             saveToLocalStorage('inventoryData', inventoryData);
-            
+
             // Reload inventory tables
             loadInventoryTable(inventoryData, 'inventoryTable');
             loadInventoryTable(inventoryData, 'inventoryTablePage');
-            
+
             // Close modal
             document.getElementById('addMaterialModal').style.display = 'none';
-            
+
             // Show success toast
             showToast(`${name} uğurla əlavə edildi`, 'success');
         });
@@ -1714,31 +1714,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // New order form submit
     const newOrderForm = document.getElementById('newOrderForm');
     if (newOrderForm) {
-        newOrderForm.addEventListener('submit', function(event) {
+        newOrderForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            
+
             // Get form data
             const materialId = document.getElementById('orderMaterial').value;
             const quantity = parseInt(document.getElementById('orderQuantity').value);
             const supplier = document.getElementById('orderSupplier').value;
             const orderDate = document.getElementById('orderDate');
-            
+
             // Find material
             const material = inventoryData.find(item => item.id === materialId);
             if (!material) {
                 showToast('Material tapılmadı', 'error');
                 return;
             }
-            
+
             // Generate ID
             const id = `ORD${String(ordersData.length + 1).padStart(3, '0')}`;
-            
+
             // Format date
             let date = new Date().toLocaleDateString('az-AZ');
             if (orderDate && orderDate.value) {
                 date = formatDate(orderDate.value);
             }
-            
+
             // Create new order
             const newOrder = {
                 id,
@@ -1749,19 +1749,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 status: 'pending',
                 supplier
             };
-            
+
             // Add to orders data
             ordersData.push(newOrder);
-            
+
             // Save to localStorage
             saveToLocalStorage('ordersData', ordersData);
-            
+
             // Reload orders table
             loadOrdersTable(ordersData);
-            
+
             // Close modal
             document.getElementById('newOrderModal').style.display = 'none';
-            
+
             // Show success toast
             showToast(`${material.name} üçün sifariş uğurla yaradıldı`, 'success');
         });
@@ -1770,19 +1770,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add supplier form submit
     const addSupplierForm = document.getElementById('addSupplierForm');
     if (addSupplierForm) {
-        addSupplierForm.addEventListener('submit', function(event) {
+        addSupplierForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            
+
             // Get form data
             const name = document.getElementById('supplierName').value;
             const contact = document.getElementById('supplierContact').value;
             const phone = document.getElementById('supplierPhone').value;
             const email = document.getElementById('supplierEmail').value;
             const address = document.getElementById('supplierAddress').value;
-            
+
             // Generate ID
             const id = `SUP${String(suppliersData.length + 1).padStart(3, '0')}`;
-            
+
             // Create new supplier
             const newSupplier = {
                 id,
@@ -1793,19 +1793,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 address,
                 status: 'active'
             };
-            
+
             // Add to suppliers data
             suppliersData.push(newSupplier);
-            
+
             // Save to localStorage
             saveToLocalStorage('suppliersData', suppliersData);
-            
+
             // Reload suppliers table
             loadSuppliersTable(suppliersData);
-            
+
             // Close modal
             document.getElementById('addSupplierModal').style.display = 'none';
-            
+
             // Show success toast
             showToast(`${name} təchizatçısı uğurla əlavə edildi`, 'success');
         });
@@ -1814,9 +1814,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Edit supplier form submit
     const editSupplierForm = document.getElementById('editSupplierForm');
     if (editSupplierForm) {
-        editSupplierForm.addEventListener('submit', function(event) {
+        editSupplierForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            
+
             // Get form data
             const id = document.getElementById('editSupplierId').value;
             const name = document.getElementById('editSupplierName').value;
@@ -1825,14 +1825,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const email = document.getElementById('editSupplierEmail').value;
             const address = document.getElementById('editSupplierAddress').value;
             const status = document.getElementById('editSupplierStatus').value;
-            
+
             // Find supplier
             const supplierIndex = suppliersData.findIndex(supplier => supplier.id === id);
             if (supplierIndex === -1) {
                 showToast('Təchizatçı tapılmadı', 'error');
                 return;
             }
-            
+
             // Update supplier
             suppliersData[supplierIndex] = {
                 id,
@@ -1843,16 +1843,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 address,
                 status
             };
-            
+
             // Save to localStorage
             saveToLocalStorage('suppliersData', suppliersData);
-            
+
             // Reload suppliers table
             loadSuppliersTable(suppliersData);
-            
+
             // Close modal
             document.getElementById('editSupplierModal').style.display = 'none';
-            
+
             // Show success toast
             showToast(`${name} təchizatçısı uğurla yeniləndi`, 'success');
         });
@@ -1866,13 +1866,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (confirm(`${supplier.name} təchizatçısını silmək istədiyinizə əminsiniz?`)) {
                 // Remove supplier from suppliers data
                 suppliersData = suppliersData.filter(supplier => supplier.id !== supplierId);
-                
+
                 // Save to localStorage
                 saveToLocalStorage('suppliersData', suppliersData);
-                
+
                 // Reload suppliers table
                 loadSuppliersTable(suppliersData);
-                
+
                 // Show success toast
                 showToast(`${supplier.name} təchizatçısı uğurla silindi`, 'success');
             }
@@ -1882,21 +1882,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add user form submit
     const addUserForm = document.getElementById('addUserForm');
     if (addUserForm) {
-        addUserForm.addEventListener('submit', function(event) {
+        addUserForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            
+
             // Get form data
             const firstName = document.getElementById('userFirstName').value;
             const lastName = document.getElementById('userLastName').value;
             const email = document.getElementById('userEmail').value;
             const role = document.getElementById('userRole').value;
-            
+
             // Check if email already exists
             if (usersData.some(user => user.email === email)) {
                 showToast('Bu email artıq istifadə olunur', 'error');
                 return;
             }
-            
+
             // Create new user
             const newUser = {
                 name: `${firstName} ${lastName}`,
@@ -1905,19 +1905,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 status: 'active',
                 registrationDate: new Date().toLocaleDateString('az-AZ')
             };
-            
+
             // Add to users data
             usersData.push(newUser);
-            
+
             // Save to localStorage
             saveToLocalStorage('usersData', usersData);
-            
+
             // Reload users table
             loadUsersTable(usersData);
-            
+
             // Close modal
             document.getElementById('addUserModal').style.display = 'none';
-            
+
             // Show success toast
             showToast(`${firstName} ${lastName} uğurla əlavə edildi`, 'success');
         });
@@ -1926,7 +1926,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Profile form submit
     const profileForm = document.getElementById('profileForm');
     if (profileForm) {
-        profileForm.addEventListener('submit', function(event) {
+        profileForm.addEventListener('submit', function (event) {
             event.preventDefault();
             showToast('Profil məlumatları uğurla yeniləndi', 'success');
         });
@@ -1935,7 +1935,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Password form submit
     const passwordForm = document.getElementById('passwordForm');
     if (passwordForm) {
-        passwordForm.addEventListener('submit', function(event) {
+        passwordForm.addEventListener('submit', function (event) {
             event.preventDefault();
             showToast('Şifrə uğurla dəyişdirildi', 'success');
         });
@@ -1944,22 +1944,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Save settings button
     const saveSettingsBtn = document.getElementById('saveSettingsBtn');
     if (saveSettingsBtn) {
-        saveSettingsBtn.addEventListener('click', function() {
+        saveSettingsBtn.addEventListener('click', function () {
             // Save settings to localStorage
             const autoNotifications = document.getElementById('autoNotifications').checked;
             const autoReports = document.getElementById('autoReports').checked;
             const darkMode = document.getElementById('darkMode').checked;
             const criticalLevel = document.getElementById('criticalLevel').value;
-            
+
             const settings = {
                 autoNotifications,
                 autoReports,
                 darkMode,
                 criticalLevel
             };
-            
+
             saveToLocalStorage('settings', settings);
-            
+
             showToast('Tənzimləmələr uğurla yadda saxlanıldı', 'success');
         });
     }
@@ -1971,7 +1971,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const autoReports = document.getElementById('autoReports');
         const darkMode = document.getElementById('darkMode');
         const criticalLevel = document.getElementById('criticalLevel');
-        
+
         if (autoNotifications) autoNotifications.checked = settings.autoNotifications;
         if (autoReports) autoReports.checked = settings.autoReports;
         if (darkMode) darkMode.checked = settings.darkMode;
@@ -1981,7 +1981,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Dark mode toggle
     const darkModeToggle = document.getElementById('darkMode');
     if (darkModeToggle) {
-        darkModeToggle.addEventListener('change', function() {
+        darkModeToggle.addEventListener('change', function () {
             if (this.checked) {
                 document.documentElement.classList.add('dark-mode');
                 localStorage.setItem('darkMode', 'enabled');
@@ -1990,7 +1990,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('darkMode', 'disabled');
             }
         });
-        
+
         // Check for saved dark mode preference
         if (localStorage.getItem('darkMode') === 'enabled') {
             darkModeToggle.checked = true;
@@ -2004,24 +2004,24 @@ document.addEventListener('DOMContentLoaded', function() {
         if (item) {
             // Increase quantity
             item.quantity += 10;
-            
+
             // Update status
             if (item.quantity > item.minLevel) {
                 item.status = 'normal';
             } else if (item.quantity > item.minLevel * 0.5) {
                 item.status = 'low';
             }
-            
+
             // Update last updated date
             item.lastUpdated = new Date().toLocaleDateString('az-AZ');
-            
+
             // Save to localStorage
             saveToLocalStorage('inventoryData', inventoryData);
-            
+
             // Reload inventory tables
             loadInventoryTable(inventoryData, 'inventoryTable');
             loadInventoryTable(inventoryData, 'inventoryTablePage');
-            
+
             // Show success toast
             showToast(`${item.name} miqdarı artırıldı`, 'success');
         }
@@ -2036,30 +2036,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 showToast(`${item.name} miqdarı 0-dan az ola bilməz`, 'error');
                 return;
             }
-            
+
             // Decrease quantity
             item.quantity -= 10;
-            
+
             // Update status
             if (item.quantity <= item.minLevel * 0.5) {
                 item.status = 'critical';
             } else if (item.quantity <= item.minLevel) {
                 item.status = 'low';
             }
-            
+
             // Update last updated date
             item.lastUpdated = new Date().toLocaleDateString('az-AZ');
-            
+
             // Save to localStorage
             saveToLocalStorage('inventoryData', inventoryData);
-            
+
             // Reload inventory tables
             loadInventoryTable(inventoryData, 'inventoryTable');
             loadInventoryTable(inventoryData, 'inventoryTablePage');
-            
+
             // Show success toast
             showToast(`${item.name} miqdarı azaldıldı`, 'success');
-            
+
             // Show critical alert if needed
             if (item.status === 'critical') {
                 showToast(`${item.name} kritik səviyyəyə düşdü!`, 'warning');
@@ -2075,14 +2075,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (confirm(`${item.name} materialını silmək istədiyinizə əminsiniz?`)) {
                 // Remove item from inventory data
                 inventoryData = inventoryData.filter(item => item.id !== itemId);
-                
+
                 // Save to localStorage
                 saveToLocalStorage('inventoryData', inventoryData);
-                
+
                 // Reload inventory tables
                 loadInventoryTable(inventoryData, 'inventoryTable');
                 loadInventoryTable(inventoryData, 'inventoryTablePage');
-                
+
                 // Show success toast
                 showToast(`${item.name} uğurla silindi`, 'success');
             }
@@ -2097,13 +2097,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (confirm(`${order.id} nömrəli sifarişi silmək istədiyinizə əminsiniz?`)) {
                 // Remove order from orders data
                 ordersData = ordersData.filter(order => order.id !== orderId);
-                
+
                 // Save to localStorage
                 saveToLocalStorage('ordersData', ordersData);
-                
+
                 // Reload orders table
                 loadOrdersTable(ordersData);
-                
+
                 // Show success toast
                 showToast(`${order.id} nömrəli sifariş uğurla silindi`, 'success');
             }
@@ -2118,13 +2118,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (confirm(`${user.name} istifadəçisini silmək istədiyinizə əminsiniz?`)) {
                 // Remove user from users data
                 usersData = usersData.filter(user => user.email !== userEmail);
-                
+
                 // Save to localStorage
                 saveToLocalStorage('usersData', usersData);
-                
+
                 // Reload users table
                 loadUsersTable(usersData);
-                
+
                 // Show success toast
                 showToast(`${user.name} uğurla silindi`, 'success');
             }
@@ -2134,14 +2134,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show toast notification
     function showToast(message, type = 'info') {
         const toastContainer = document.getElementById('toastContainer');
-        
+
         // Create toast element
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
-        
+
         // Set icon based on type
         let icon = '';
-        switch(type) {
+        switch (type) {
             case 'success':
                 icon = '<i class="fas fa-check-circle"></i>';
                 break;
@@ -2154,22 +2154,22 @@ document.addEventListener('DOMContentLoaded', function() {
             default:
                 icon = '<i class="fas fa-info-circle"></i>';
         }
-        
+
         // Set toast content
         toast.innerHTML = `
             ${icon}
             <div class="toast-message">${message}</div>
             <button class="toast-close">&times;</button>
         `;
-        
+
         // Add toast to container
         toastContainer.appendChild(toast);
-        
+
         // Add close event to toast
-        toast.querySelector('.toast-close').addEventListener('click', function() {
+        toast.querySelector('.toast-close').addEventListener('click', function () {
             toast.remove();
         });
-        
+
         // Auto remove toast after 5 seconds
         setTimeout(() => {
             toast.style.opacity = '0';
@@ -2178,4 +2178,38 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }, 5000);
     }
+
+   const tbody_user_checker = document.getElementById('tbody_user_checker');
+function fetchUserData() {
+  fetch('moch-data.json')
+    .then(response => response.json())
+    .then(data => {
+      tbody_user_checker.innerHTML = ''; 
+
+      data.slice(0, 5).forEach(user => {
+        tbody_user_checker.innerHTML += `
+          <tr>
+            <td></td>
+            <td style="text-align: center; width:150px; height:100px">
+              <img style="width:100%; height:100%; object-fit:contain" src="${user.image}" />
+            </td>
+            <td></td>
+            <td style="text-align: center;">${user.date}</td>
+            <td></td>
+            <td style="text-align: center;">${user.status}</td>
+          </tr>
+        `;
+      });
+
+      console.log("Yeni məlumatlar çəkildi:", data);
+    })
+    .catch(error => {
+      console.error('Serverdən məlumat alına bilmədi:', error);
+    });
+}
+
+fetchUserData();
+
+setInterval(fetchUserData, 2000);
+
 });
