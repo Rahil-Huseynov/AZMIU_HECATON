@@ -108,6 +108,11 @@ body {
     color: var(--text-muted);
 }
 
+.data_user_checker{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
 .sidebar-nav li:hover {
     background-color: var(--secondary-color);
     color: var(--text-color);

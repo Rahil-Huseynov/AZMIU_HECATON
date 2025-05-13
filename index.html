@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="az">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <div class="container">
         <aside class="sidebar">
@@ -39,6 +41,10 @@
                     <li data-page="users">
                         <i class="fas fa-users"></i>
                         <span>İstifadəçilər</span>
+                    </li>
+                    <li data-page="users_checker">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>İşçilərin yoxlanması</span>
                     </li>
                     <li data-page="settings">
                         <i class="fas fa-cog"></i>
@@ -232,7 +238,8 @@
                                 <div class="table-actions">
                                     <div class="search-container">
                                         <i class="fas fa-search"></i>
-                                        <input type="search" id="inventorySearch" placeholder="Material və ya kateqoriya axtar...">
+                                        <input type="search" id="inventorySearch"
+                                            placeholder="Material və ya kateqoriya axtar...">
                                     </div>
                                     <button class="btn btn-primary" id="addMaterialBtnTab">Yeni Əlavə Et</button>
                                 </div>
@@ -301,7 +308,8 @@
                                         <div class="alert-details">
                                             <h4>Sement - Kritik Səviyyə</h4>
                                             <p>Qalan miqdar: 120kg (Minimum: 200kg)</p>
-                                            <button class="btn btn-outline order-btn" data-material="Sement">Sifariş Et</button>
+                                            <button class="btn btn-outline order-btn" data-material="Sement">Sifariş
+                                                Et</button>
                                         </div>
                                     </div>
 
@@ -310,7 +318,8 @@
                                         <div class="alert-details">
                                             <h4>Armatur (12mm) - Kritik Səviyyə</h4>
                                             <p>Qalan miqdar: 45 ədəd (Minimum: 100 ədəd)</p>
-                                            <button class="btn btn-outline order-btn" data-material="Armatur (12mm)">Sifariş Et</button>
+                                            <button class="btn btn-outline order-btn"
+                                                data-material="Armatur (12mm)">Sifariş Et</button>
                                         </div>
                                     </div>
 
@@ -319,7 +328,8 @@
                                         <div class="alert-details">
                                             <h4>Kərpic - Aşağı Səviyyə</h4>
                                             <p>Qalan miqdar: 350 ədəd (Minimum: 500 ədəd)</p>
-                                            <button class="btn btn-outline order-btn" data-material="Kərpic">Sifariş Et</button>
+                                            <button class="btn btn-outline order-btn" data-material="Kərpic">Sifariş
+                                                Et</button>
                                         </div>
                                     </div>
                                 </div>
@@ -350,7 +360,8 @@
                         <div class="table-actions">
                             <div class="search-container">
                                 <i class="fas fa-search"></i>
-                                <input type="search" id="inventorySearchPage" placeholder="Material və ya kateqoriya axtar...">
+                                <input type="search" id="inventorySearchPage"
+                                    placeholder="Material və ya kateqoriya axtar...">
                             </div>
                             <div class="filter-container">
                                 <select id="categoryFilter" class="filter-select">
@@ -537,7 +548,7 @@
                     <div class="card-content">
                         <div class="report-content">
                             <div class="report-content-item">
-                            <canvas id="reportChart"></canvas>
+                                <canvas id="reportChart"></canvas>
                             </div>
                             <div id="reportData"></div>
                         </div>
@@ -574,7 +585,8 @@
                                     <h4>Sement - Kritik Səviyyə</h4>
                                     <p>Qalan miqdar: 120kg (Minimum: 200kg)</p>
                                     <div class="alert-actions">
-                                        <button class="btn btn-outline order-btn" data-material="Sement">Sifariş Et</button>
+                                        <button class="btn btn-outline order-btn" data-material="Sement">Sifariş
+                                            Et</button>
                                         <button class="btn btn-text dismiss-btn">Rədd Et</button>
                                     </div>
                                     <div class="alert-time">12.05.2025, 10:15</div>
@@ -587,7 +599,8 @@
                                     <h4>Armatur (12mm) - Kritik Səviyyə</h4>
                                     <p>Qalan miqdar: 45 ədəd (Minimum: 100 ədəd)</p>
                                     <div class="alert-actions">
-                                        <button class="btn btn-outline order-btn" data-material="Armatur (12mm)">Sifariş Et</button>
+                                        <button class="btn btn-outline order-btn" data-material="Armatur (12mm)">Sifariş
+                                            Et</button>
                                         <button class="btn btn-text dismiss-btn">Rədd Et</button>
                                     </div>
                                     <div class="alert-time">11.05.2025, 14:30</div>
@@ -600,7 +613,8 @@
                                     <h4>Kərpic - Aşağı Səviyyə</h4>
                                     <p>Qalan miqdar: 350 ədəd (Minimum: 500 ədəd)</p>
                                     <div class="alert-actions">
-                                        <button class="btn btn-outline order-btn" data-material="Kərpic">Sifariş Et</button>
+                                        <button class="btn btn-outline order-btn" data-material="Kərpic">Sifariş
+                                            Et</button>
                                         <button class="btn btn-text dismiss-btn">Rədd Et</button>
                                     </div>
                                     <div class="alert-time">10.05.2025, 09:45</div>
@@ -621,7 +635,8 @@
                                 <i class="fas fa-info-circle"></i>
                                 <div class="alert-details">
                                     <h4>Sistem Yeniləməsi</h4>
-                                    <p>Sistem 15.05.2025 tarixində saat 02:00-da yenilənəcək. Təxminən 30 dəqiqə ərzində sistem əlçatmaz olacaq.</p>
+                                    <p>Sistem 15.05.2025 tarixində saat 02:00-da yenilənəcək. Təxminən 30 dəqiqə ərzində
+                                        sistem əlçatmaz olacaq.</p>
                                     <div class="alert-actions">
                                         <button class="btn btn-text dismiss-btn">Rədd Et</button>
                                     </div>
@@ -692,6 +707,37 @@
                                         <th>Status</th>
                                         <th>Qeydiyyat Tarixi</th>
                                         <th class="text-right">Əməliyyatlar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Users data will be loaded here by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checker User -->
+            <div class="page" id="users_checker">
+                <div class="page-header">
+                    <h1>İşçilərin Yoxlanması Məlumatları</h1>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>İşçilərin Yoxlanması</h3>
+                        <p>Sorğuların görsədilməsi</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-container">
+                            <table class="data-table" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Vaxt</th>
+                                        <th></th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1045,4 +1091,5 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
