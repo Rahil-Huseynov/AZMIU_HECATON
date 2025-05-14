@@ -2191,7 +2191,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <tr>
             <td></td>
             <td style="text-align: center; width:150px; height:100px">
-              <img style="width:100%; height:100%; object-fit:contain" src="data:image/jpeg;base64,${user.image}" />
+              <img style="width:100%; height:100%; object-fit:contain" src="data:image/jpeg;base64,${user.base}" />
             </td>
             <td></td>
             <td style="text-align: center;">${user.createdAt}</td>
