@@ -2180,42 +2180,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const tbody_user_checker = document.getElementById('tbody_user_checker');
+    function fetchUserData() {
+        fetch('http://localhost:7777/v1/check')
+            .then(response => response.json())
+            .then(data => {
+                tbody_user_checker.innerHTML = '';
 
-function fetchUserData() {
-    fetch('http://localhost:7777/v1/check')
-        .then(response => response.json())
-        .then(data => {
-            tbody_user_checker.innerHTML = '';
-            data.slice(0, 5).forEach(user => {
-                fetch(user.imagePath)
-                    .then(response => response.json())
-                    .then(imageData => {
-                        tbody_user_checker.innerHTML += `
-                            <tr>
-                                <td></td>
-                                <td style="text-align: center; width:150px; height:100px">
-                                    <img style="width:100%; height:100%; object-fit:contain" src="${imageData.data}" />
-                                </td>
-                                <td></td>
-                                <td style="text-align: center;">${user.createdAt}</td>
-                                <td></td>
-                                <td style="text-align: center;">Pozuntu aşkarlandı</td>
-                            </tr>
-                        `;
-                    })
-                    .catch(error => {
-                        console.error('Image fetch error:', error);
-                    });
+                data.slice(0, 5).forEach(user => {
+                    tbody_user_checker.innerHTML += `
+          <tr>
+            <td></td>
+            <td style="text-align: center; width:150px; height:100px">
+              <img style="width:100%; height:100%; object-fit:contain" src="${user.imagePath}" />
+            </td>
+            <td></td>
+            <td style="text-align: center;">${user.createdAt}</td>
+            <td></td>
+            <td style="text-align: center;">Pozuntu aşkarlandı!</td>
+          </tr>
+        `;
+                });
+            })
+            .catch(error => {
+                console.error('Serverdən məlumat alına bilmədi:', error);
             });
-        })
-        .catch(error => {
-            console.error('Serverdən məlumat alına bilmədi:', error);
-        });
-}
+    }
 
-fetchUserData();
-setInterval(fetchUserData, 2000);
+    fetchUserData();
 
+    setInterval(fetchUserData, 2000);
 
 });
 const weather_input = document.getElementById('cityInput');
