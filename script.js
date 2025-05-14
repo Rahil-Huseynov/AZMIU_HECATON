@@ -2181,7 +2181,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const tbody_user_checker = document.getElementById('tbody_user_checker');
     function fetchUserData() {
-        fetch('moch-data.json')
+        fetch('http://localhost:7777/v1/check')
             .then(response => response.json())
             .then(data => {
                 tbody_user_checker.innerHTML = '';
