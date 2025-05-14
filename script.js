@@ -2185,7 +2185,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 tbody_user_checker.innerHTML = '';
-
+                data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 data.slice(0, 5).forEach(user => {
                     tbody_user_checker.innerHTML += `
           <tr>
