@@ -46,6 +46,10 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <span>İşçilərin yoxlanması</span>
                     </li>
+                    <li data-page="weather_safety">
+                        <i class="fa-solid fa-temperature-three-quarters"></i>
+                        <span>Hava təhlükəzliyi</span>
+                    </li>
                     <li data-page="settings">
                         <i class="fas fa-cog"></i>
                         <span>Tənzimləmələr</span>
@@ -743,6 +747,51 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tbody_user_checker">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Weather Safety -->
+            <div class="page" id="weather_safety">
+                <div class="page-header">
+                    <h1>Hava təhlükəzliyi</h1>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Hava təhlükəzliyi</h3>
+                        <p>Hava haqqında məlumatlar</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-actions">
+                            <div class="search-container">
+                                <i class="fas fa-search"></i>
+                                <input type="search" id="cityInput" placeholder="Ərazi axtar...">
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <p id="location"></P>
+                            <table class="data-table" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Hava</th>
+                                        <th></th>
+                                        <th>Tarix</th>
+                                        <th></th>
+                                        <th>Saat</th>
+                                        <th></th>
+                                        <th>Dərəcə</th>
+                                        <th></th>
+                                        <th>Küləyin sürəti</th>
+                                        <th></th>
+                                        <th>Təhlükə</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="weather-data">
+                                    <!-- Users data will be loaded here by JavaScript -->
                                 </tbody>
                             </table>
                         </div>

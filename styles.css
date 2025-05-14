@@ -97,6 +97,12 @@ body {
     list-style: none;
 }
 
+#location{
+    font-size: 3rem;
+    font-weight: 800;
+    padding-left: 2rem;
+}
+
 .sidebar-nav li {
     display: flex;
     align-items: center;

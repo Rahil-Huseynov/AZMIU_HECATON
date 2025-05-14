@@ -2179,15 +2179,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000);
     }
 
-   const tbody_user_checker = document.getElementById('tbody_user_checker');
-function fetchUserData() {
-  fetch('moch-data.json')
-    .then(response => response.json())
-    .then(data => {
-      tbody_user_checker.innerHTML = ''; 
+    const tbody_user_checker = document.getElementById('tbody_user_checker');
+    function fetchUserData() {
+        fetch('moch-data.json')
+            .then(response => response.json())
+            .then(data => {
+                tbody_user_checker.innerHTML = '';
 
-      data.slice(0, 5).forEach(user => {
-        tbody_user_checker.innerHTML += `
+                data.slice(0, 5).forEach(user => {
+                    tbody_user_checker.innerHTML += `
           <tr>
             <td></td>
             <td style="text-align: center; width:150px; height:100px">
@@ -2199,17 +2199,152 @@ function fetchUserData() {
             <td style="text-align: center;">${user.status}</td>
           </tr>
         `;
-      });
+                });
+            })
+            .catch(error => {
+                console.error('Serverdən məlumat alına bilmədi:', error);
+            });
+    }
 
-      console.log("Yeni məlumatlar çəkildi:", data);
-    })
-    .catch(error => {
-      console.error('Serverdən məlumat alına bilmədi:', error);
-    });
-}
+    fetchUserData();
 
-fetchUserData();
-
-setInterval(fetchUserData, 2000);
+    setInterval(fetchUserData, 2000);
 
 });
+const weather_input = document.getElementById('cityInput');
+const hourlyWeather = document.getElementById('hourlyWeather');
+const hourlyWeather_h2 = document.getElementById('hourlyWeather_h2');
+
+const temperatur = async (city = null, lat = null, lon = null) => {
+    const apiKey = '077118ed465d578cff1db686007f4f40';
+    const weatherTable = document.getElementById('weather-data');
+    const location = document.getElementById('location');
+
+    try {
+        let currentResponse;
+        let forecastResponse;
+        if (lat && lon) {
+            currentResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`);
+            forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`);
+        } else if (city) {
+            currentResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+            forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`);
+        }
+
+        const currentData = await currentResponse.json();
+        const forecastData = await forecastResponse.json();
+
+        if (currentResponse.status === 200 && forecastResponse.status === 200) {
+            const description = currentData.weather[0].description;
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+            location.innerHTML = `${currentData.name}`;
+
+            const currTemp = currentData.main.temp;
+            const currWind = currentData.wind.speed;
+
+            let currDanger = "✅";
+            if (currTemp > 35) {
+                currDanger = "☀️🔥⚠️";
+            } else if (currTemp > 25) {
+                currDanger = "☀️";
+            } else if (currTemp < 0) {
+                currDanger = "❄️";
+            } else if (currWind > 15) {
+                currDanger = "💨⚠️";
+            } else if (currWind > 10) {
+                currDanger = "💨";
+            }
+            let tableHTML = `
+                <tr>
+                    <td></td>
+                    <td>${description.charAt(0).toUpperCase() + description.slice(1)}</td>
+                    <td></td>
+                    <td>${now.toLocaleDateString()}</td>
+                    <td></td>
+                    <td>${time}</td>
+                    <td></td>
+                    <td>${currTemp}°C</td>
+                    <td></td>
+                    <td>${currWind} m/s</td>
+                    <td></td>
+                    <td>${currDanger}</td>
+                </tr>
+            `;
+
+            for (let i = 0; i < 20 && i < forecastData.list.length; i++) {
+                const item = forecastData.list[i];
+                const forecastDate = new Date(item.dt * 1000);
+                const date = forecastDate.toLocaleDateString();
+                const time = forecastDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+                const weatherDesc = item.weather[0].description;
+                const formattedDesc = weatherDesc.charAt(0).toUpperCase() + weatherDesc.slice(1);
+                const temp = item.main.temp;
+                const wind = item.wind.speed;
+
+                let danger = "✅";
+                if (currTemp > 35) {
+                    danger = "☀️🔥⚠️";
+                } else if (currTemp > 25) {
+                    danger = "☀️";
+                } else if (currTemp < 0) {
+                    danger = "❄️";
+                } else if (currWind > 15) {
+                    danger = "💨⚠️";
+                } else if (currWind > 10) {
+                    danger = "💨";
+                }
+
+                tableHTML += `
+                    <tr>
+                        <td></td>
+                        <td>${formattedDesc}</td>
+                        <td></td>
+                        <td>${date}</td>
+                        <td></td>
+                        <td>${time}</td>
+                        <td></td>
+                        <td>${temp}°C</td>
+                        <td></td>
+                        <td>${wind} m/s</td>
+                        <td></td>
+                        <td>${danger}</td>
+                    </tr>
+                `;
+            }
+
+            weatherTable.innerHTML = tableHTML;
+            if (hourlyWeather) hourlyWeather.style.display = 'block';
+        } else {
+            weatherTable.innerHTML = `<tr><td colspan="12">Yalnış ərazi daxil etmisiniz</td></tr>`;
+            if (hourlyWeather) hourlyWeather.style.display = 'none';
+        }
+    } catch (error) {
+        console.error("Xəta baş verdi:", error);
+        weatherTable.innerHTML = `<tr><td colspan="12">Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.</td></tr>`;
+        if (hourlyWeather) hourlyWeather.style.display = 'none';
+    }
+};
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        position => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            temperatur(null, lat, lon);
+        },
+        error => {
+            console.warn('Lokasiya alınmadı:', error.message);
+        }
+    );
+} else {
+    console.warn("Brauzer lokasiyanı dəstəkləmir.");
+}
+
+weather_input.onkeydown = (e) => {
+    if (e.key === 'Enter') {
+        const city = weather_input.value.trim();
+        temperatur(city);
+    }
+};
