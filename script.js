@@ -2191,12 +2191,12 @@ document.addEventListener('DOMContentLoaded', function () {
           <tr>
             <td></td>
             <td style="text-align: center; width:150px; height:100px">
-              <img style="width:100%; height:100%; object-fit:contain" src="${user.image}" />
+              <img style="width:100%; height:100%; object-fit:contain" src="${user.imagePath}" />
             </td>
             <td></td>
-            <td style="text-align: center;">${user.date}</td>
+            <td style="text-align: center;">${user.createdAt}</td>
             <td></td>
-            <td style="text-align: center;">${user.status}</td>
+            <td style="text-align: center;">Pozuntu aşkarlandı</td>
           </tr>
         `;
                 });
